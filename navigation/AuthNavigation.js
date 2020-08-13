@@ -13,7 +13,7 @@ const AuthNavigation = createStackNavigator(
     Confirm,
   },
   {
-    headerMode: "screen",
+    headerMode: "none",
   }
 );
 
