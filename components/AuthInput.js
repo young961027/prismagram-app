@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import constants from "../constants";
-import { onChange, onEndEditing } from "react-native";
+import { onChange, onSubmitEditing } from "react-native";
 
 const Container = styled.View`
   margin-bottom: 220px;
@@ -23,7 +23,7 @@ const AuthInput = ({
   autoCapitalize = "none",
   returnKeyType = "done",
   onChange,
-  onEndEditing = () => null,
+  onSubmitEditing = () => null,
   autoCorrect = true,
 }) => (
   <Container>
@@ -33,7 +33,7 @@ const AuthInput = ({
       returnKeyType={returnKeyType}
       placeholder={placeholder}
       autoCapitalize={autoCapitalize}
-      onEndEditing={onEndEditing}
+      onSubmitEditing={onSubmitEditing}
       value={value}
       autoCorrect={autoCorrect}
     />
@@ -47,6 +47,7 @@ AuthInput.propTypes = {
   autoCapitalize: PropTypes.oneOf(["none", "sentences", "words", "char"]),
   onChange: PropTypes.func.isRequired,
   returnKeyType: PropTypes.oneOf(["done", "go", "next", "search", "send"]),
+  autoCorrect: PropTypes.bool,
 };
 
 export default AuthInput;

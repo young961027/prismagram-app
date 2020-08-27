@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import styled from "styled-components";
+import { Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import AuthButton from "../../components/AuthButton";
 import AuthInput from "../../components/AuthInput";
 import useInput from "../../hooks/useInput";
 import { useMutation } from "react-apollo-hooks";
-import LOG_IN from "../Auth/AuthQueries";
+import { LOG_IN } from "./AuthQueries";
 
 const View = styled.View`
   justify-content: center;
@@ -16,9 +16,9 @@ const View = styled.View`
 export default ({ navigation }) => {
   const emailInput = useInput("");
   const [loading, setLoading] = useState(false);
-  const requestSecret = useMutation(LOG_IN, {
+  const [requestSecretMutation] = useMutation(LOG_IN, {
     variables: {
-      $email: emailInput.value,
+      email: emailInput.value,
     },
   });
   const handleLogin = async () => {
@@ -33,10 +33,19 @@ export default ({ navigation }) => {
     }
     try {
       setLoading(true);
-      await requestSecret();
-      Alert.alert("Email을 확인하세요");
-      navigation.navigate("Confirm");
+      const {
+        data: { requestSecret },
+      } = await requestSecretMutation();
+      if (requestSecret) {
+        Alert.alert("Email을 확인하세요");
+        navigation.navigate("Confirm");
+        return;
+      } else {
+        Alert.alert("계정을 찾을 수 없습니다");
+        navigation.navigate("Signup");
+      }
     } catch (e) {
+      console.log(e);
       Alert.alert("로그인 할 수 없습니다");
     } finally {
       setLoading(false);
@@ -51,7 +60,7 @@ export default ({ navigation }) => {
           keyboardType="email-address"
           autoCapitalize="none"
           returnKeyType="send"
-          onEndEditing={handleLogin}
+          onSubmitEditing={handleLogin}
           autoCorrect={false}
         />
         <AuthButton
