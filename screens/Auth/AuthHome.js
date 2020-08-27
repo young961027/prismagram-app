@@ -30,12 +30,12 @@ export default ({ navigation }) => (
   <View>
     <Image resizeMode={"contain"} source={require("../../assets/logo.png")} />
     <AuthButton
-      text={"Create New Account"}
+      text={"새로운 계정 생성"}
       onPress={() => navigation.navigate("Signup")}
     />
     <Touchable onPress={() => navigation.navigate("Login")}>
       <LoginLink>
-        <LoginLinkText>Log in</LoginLinkText>
+        <LoginLinkText>로그인</LoginLinkText>
       </LoginLink>
     </Touchable>
   </View>
