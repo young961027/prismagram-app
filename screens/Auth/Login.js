@@ -38,11 +38,11 @@ export default ({ navigation }) => {
       } = await requestSecretMutation();
       if (requestSecret) {
         Alert.alert("Email을 확인하세요");
-        navigation.navigate("Confirm");
+        navigation.navigate("Confirm", { email: value });
         return;
       } else {
         Alert.alert("계정을 찾을 수 없습니다");
-        navigation.navigate("Signup");
+        navigation.navigate("Signup", { email: value });
       }
     } catch (e) {
       console.log(e);
